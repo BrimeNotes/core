@@ -1,0 +1,15 @@
+{
+  "name": "BrimeNotes/core",
+  "authors": [
+    {
+      "name": "Ujjwal Bhardwaj",
+      "email": "ujjwalb1996@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Brime\\Core\\": "Application/Core/",
+      "Brime\\Models\\": "Application/Models/"
+    }
+  }
+}
