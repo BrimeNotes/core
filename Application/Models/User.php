@@ -18,9 +18,6 @@ class User
 
     }
 
-    public function userExists($userId) {}
-    public function checkPassword($input, $password) {}
-    public function count() {}
     public function getByEmail($email) {}
 
     public function create($userId, $password)
