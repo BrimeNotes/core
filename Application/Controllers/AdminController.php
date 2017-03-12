@@ -17,7 +17,7 @@ class AdminController extends Controller
         parent::__construct();
     }
 
-    public function register()
+    public function registeruser()
     {
 
         if (!$this->user->isAdmin())
@@ -29,4 +29,10 @@ class AdminController extends Controller
             );
         }
     }
+
+    public function changeusergroup() {}
+    public function deleteuser() {}
+    public function changeuserinfo() {}
+
+
 }
