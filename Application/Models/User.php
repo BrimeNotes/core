@@ -6,7 +6,18 @@ use Brime\Core\DatabaseFactory;
 
 class User
 {
-    public function get($userId) {}
+    private $database;
+
+    public function __construct()
+    {
+        $this->database = DatabaseFactory::getFactory()->getConnection();
+    }
+
+    public function get($userId)
+    {
+
+    }
+
     public function userExists($userId) {}
     public function checkPassword($input, $password) {}
     public function count() {}
@@ -14,10 +25,9 @@ class User
 
     public function create($userId, $password)
     {
-        $database = DatabaseFactory::getFactory()->getConnection();
         $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
-        $query = $database->prepare("INSERT INTO users (userid, password) VALUES (:userid, :password)");
+        $query = $this->database->prepare("INSERT INTO users (userid, password) VALUES (:userid, :password)");
         $query->execute(array(
             ':userid' => $userId,
             ':password' => $passwordHash,
