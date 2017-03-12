@@ -64,7 +64,7 @@ class UserProperties
             ':userid' => $userId,
         ));
 
-        if ($query->rowCount() != 1) {
+        if ($query->rowCount() == 0) {
             return '';
         }
         return $query->fetchAll();
