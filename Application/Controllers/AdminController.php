@@ -104,8 +104,7 @@ class AdminController extends Controller
         $admin = $this->Request->post('admin');
         $userId = $this->Request->post('userid');
 
-        if (!$this->userManager->isAdmin($admin))
-        {
+        if (!$this->userManager->isAdmin($admin)) {
             $this->View->renderJSON(
                 [
                     "status" => "error",
