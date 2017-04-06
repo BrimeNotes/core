@@ -4,8 +4,8 @@ namespace Brime\Controllers;
 
 use Brime\Core\Controller;
 
-use Brime\Core\Http;
-use Brime\Core\Request;
+use Brime\Core\Helpers\Http;
+use Brime\Core\Helpers\Request;
 use Brime\Models\User;
 use Brime\Models\UserManager;
 
@@ -25,7 +25,7 @@ class AdminController extends Controller
         parent::__construct();
     }
 
-    public function registeruser()
+    public function registerUser()
     {
         if (!$this->Request->isPost()) {
             $this->View->renderJSON(
@@ -86,9 +86,9 @@ class AdminController extends Controller
         }
     }
 
-    public function changeusergroup() {}
+    public function changeUserGroup() {}
 
-    public function deleteuser()
+    public function deleteUser()
     {
         if (!$this->Request->isPost()) {
             $this->View->renderJSON(
@@ -129,7 +129,7 @@ class AdminController extends Controller
         $this->user->delete($userId);
     }
 
-    public function changeuserinfo() {}
+    public function changeUserInfo() {}
 
 
 }

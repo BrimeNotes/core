@@ -2,7 +2,7 @@
 
 namespace Brime\Models;
 
-use Brime\Core\DatabaseFactory;
+use Brime\Core\Helpers\DatabaseFactory;
 
 class UserManager
 {

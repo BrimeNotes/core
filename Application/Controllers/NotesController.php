@@ -3,8 +3,8 @@
 namespace Brime\Controllers;
 
 use Brime\Core\Controller;
-use Brime\Core\Http;
-use Brime\Core\Request;
+use Brime\Core\Helpers\Http;
+use Brime\Core\Helpers\Request;
 
 use Brime\Models\Notes;
 

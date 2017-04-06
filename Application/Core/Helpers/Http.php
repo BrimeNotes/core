@@ -1,6 +1,6 @@
 <?php
 
-namespace Brime\Core;
+namespace Brime\Core\Helpers;
 
 class Http
 {

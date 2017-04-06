@@ -2,6 +2,8 @@
 
 namespace Brime\Core;
 
+use Brime\Core\Helpers\Config;
+
 class View
 {
     private $Config;

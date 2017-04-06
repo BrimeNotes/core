@@ -2,19 +2,44 @@
 
 namespace Brime\Core;
 
+use Brime\Core\Framework\Helper;
+use Brime\Core\Framework\Model;
+use Brime\Models\Group;
+use Brime\Models\Notes;
+use Brime\Models\User;
+use Brime\Models\UserManager;
+use Brime\Models\UserProperties;
+
 class Application
 {
+    /**
+     * @var Model
+     */
+    private $model;
+
+    /**
+     * @var Helper
+     */
+    private $helper;
 
     protected $controller;
     protected $method;
     protected $params = array();
     private $controllerName;
+
+    /**
+     * @var \Brime\Core\Helpers\Config
+     */
     private $Config;
 
     public function __construct()
     {
-        $this->Config = new Config();
+        $this->helper = new Helper();
+        $this->model = new Model();
+
         $this->parseURL();
+
+        $this->Config = $this->helper->get('Config');
 
         if (!$this->controllerName) {
             $this->controllerName = $this->Config->get('DEFAULT_CONTROLLER');
@@ -27,11 +52,7 @@ class Application
         $this->controllerName = ucwords($this->controllerName) . 'Controller';
 
         if (file_exists($this->Config->get('PATH_CONTROLLER') . $this->controllerName . '.php')) {
-
-            require $this->Config->get('PATH_CONTROLLER') . $this->controllerName . '.php';
-            $a = 'Brime\Controllers\\' . $this->controllerName;
-            $this->controller = new $a;
-
+            $this->instantiateController();
             if (method_exists($this->controller, $this->method)) {
                 if (!empty($this->params)) {
                     call_user_func_array(array($this->controller, $this->method), $this->params);
@@ -60,5 +81,12 @@ class Application
 
             $this->params = array_values($url);
         }
+    }
+
+    private function instantiateController()
+    {
+        require $this->Config->get('PATH_CONTROLLER') . $this->controllerName . '.php';
+        $class = 'Brime\Controllers\\' . $this->controllerName;
+        $this->controller = new $class($this->model, $this->helper);
     }
 }

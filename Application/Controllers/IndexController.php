@@ -3,13 +3,15 @@
 namespace Brime\Controllers;
 
 use Brime\Core\Controller;
-use Brime\Core\Http;
+use Brime\Core\Framework\Helper;
+use Brime\Core\Framework\Model;
+use Brime\Core\Helpers\Http;
 
 class IndexController extends Controller
 {
-    public function __construct()
+    public function __construct(Model $model, Helper $helper)
     {
-        parent::__construct();
+        parent::__construct($model, $helper);
     }
 
     public function index()

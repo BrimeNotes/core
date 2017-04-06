@@ -2,16 +2,15 @@
 
 namespace Brime\Core;
 
+use Brime\Core\Framework\Helper;
+use Brime\Core\Framework\Model;
+
 class Controller
 {
     public $View;
-    protected $Redirect;
-    protected $Config;
 
-    public function __construct()
+    public function __construct(Model $model, Helper $helper)
     {
-        $this->Redirect = new Redirect();
-        $this->Config = new Config();
         $this->View = new View();
     }
 }
