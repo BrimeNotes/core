@@ -4,25 +4,34 @@ namespace Brime\Controllers;
 
 use Brime\Core\Controller;
 
+use Brime\Core\Framework\Helper;
+use Brime\Core\Framework\Model;
 use Brime\Core\Helpers\Http;
-use Brime\Core\Helpers\Request;
-use Brime\Models\User;
-use Brime\Models\UserManager;
 
 class AdminController extends Controller
 {
+    /**
+     * @var \Brime\Models\User
+     */
     private $user;
+
+    /**
+     * @var \Brime\Models\UserManager
+     */
     private $userManager;
 
+    /**
+     * @var \Brime\Core\Helpers\Request
+     */
     private $Request;
 
-    public function __construct()
+    public function __construct(Model $model, Helper $helper)
     {
-        $this->user = new User();
-        $this->userManager = new UserManager();
+        $this->user = $model->get('User');
+        $this->userManager = $model->get('UserManager');
 
-        $this->Request = new Request();
-        parent::__construct();
+        $this->Request = $helper->get('Request');
+        parent::__construct($model, $helper);
     }
 
     public function registerUser()

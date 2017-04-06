@@ -3,6 +3,8 @@
 namespace Brime\Controllers;
 
 use Brime\Core\Controller;
+use Brime\Core\Framework\Helper;
+use Brime\Core\Framework\Model;
 use Brime\Core\Helpers\Http;
 use Brime\Core\Helpers\Request;
 
@@ -10,15 +12,23 @@ use Brime\Models\Notes;
 
 class NotesController extends Controller
 {
+    /**
+     * @var Notes
+     */
+    private $notes;
+
+    /**
+     * @var Request
+     */
     private $Request;
 
-    private $notes;
-    public function __construct()
+    public function __construct(Model $model, Helper $helper)
     {
-        $this->Request = new Request();
+        $this->notes = $model->get('Notes');
 
-        $this->notes = new Notes();
-        parent::__construct();
+        $this->Request = $helper->get('Request');
+
+        parent::__construct($model, $helper);
     }
 
 

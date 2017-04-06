@@ -26,6 +26,10 @@ class Model
         die();*/
     }
 
+    /**
+     * @param $model string
+     * @return Object | bool
+     */
     public function get($model)
     {
         if (!in_array($model, $this->list)) {

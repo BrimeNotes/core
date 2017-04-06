@@ -4,11 +4,6 @@ namespace Brime\Core;
 
 use Brime\Core\Framework\Helper;
 use Brime\Core\Framework\Model;
-use Brime\Models\Group;
-use Brime\Models\Notes;
-use Brime\Models\User;
-use Brime\Models\UserManager;
-use Brime\Models\UserProperties;
 
 class Application
 {
