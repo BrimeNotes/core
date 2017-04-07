@@ -4,6 +4,7 @@ namespace Brime\Core;
 
 use Brime\Core\Framework\Helper;
 use Brime\Core\Framework\Model;
+use Brime\Core\Framework\Route;
 
 class Application
 {
@@ -21,6 +22,7 @@ class Application
     protected $method;
     protected $params = array();
     private $controllerName;
+    protected $route;
 
     /**
      * @var \Brime\Core\Helpers\Config
@@ -29,12 +31,19 @@ class Application
 
     public function __construct()
     {
+
         $this->helper = new Helper();
         $this->model = new Model();
+        $this->route = new Route();
+        $this->Config = $this->helper->get('Config');
 
         $this->parseURL();
 
-        $this->Config = $this->helper->get('Config');
+        if (!$this->route->getRequestMethod() === $_SERVER["REQUEST_METHOD"]) {
+            die('ok');
+        } else {
+            require $this->Config->get('PATH_VIEW') . '403.php';
+        }
 
         if (!$this->controllerName) {
             $this->controllerName = $this->Config->get('DEFAULT_CONTROLLER');
@@ -65,16 +74,13 @@ class Application
     public function parseURL()
     {
         if (isset($_GET['url'])) {
-            $url = trim($_GET['url'], '/');
-            $url = filter_var($url, FILTER_SANITIZE_URL);
-            $url = explode('/', $url);
-
-            $this->controllerName = isset($url[0]) ? $url[0] : null;
-            $this->method = isset($url[1]) ? $url[1] : null;
-
-            unset($url[0], $url[1]);
-
-            $this->params = array_values($url);
+            if ($this->route->exists($_GET['url'])) {
+                $this->controllerName = $this->route->getController();
+                $this->method = $this->route->getMethod();
+                $this->params = $this->route->getParams();
+            } else {
+                require $this->Config->get('PATH_VIEW') . '404.php';
+            }
         }
     }
 

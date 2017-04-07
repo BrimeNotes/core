@@ -1,5 +1,5 @@
 <?php
-return array(
+return [
     'URL' => 'http://' . $_SERVER['HTTP_HOST'] . str_replace('public', '', dirname($_SERVER['SCRIPT_NAME'])),
 
     'PATH_CONTROLLER' => realpath(dirname(__FILE__).'/../../') . '/Application/Controllers/',
@@ -22,4 +22,4 @@ return array(
     'COOKIE_SECURE' => false,
     'COOKIE_HTTP' => true,
     'SESSION_RUNTIME' => 604800,
-);
+];

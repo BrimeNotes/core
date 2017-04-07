@@ -25,4 +25,16 @@ class IndexController extends Controller
             ]
         ), Http::STATUS_OK);
     }
+
+    public function hello($world)
+    {
+        $this->View->renderJSON(array(
+            "app_name" => "Brime",
+            "authors" => [
+                1 => [
+                    "name" => $world
+                ]
+            ]
+        ), Http::STATUS_OK);
+    }
 }
