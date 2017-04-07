@@ -39,12 +39,6 @@ class Application
 
         $this->parseURL();
 
-        if (!$this->route->getRequestMethod() === $_SERVER["REQUEST_METHOD"]) {
-            die('ok');
-        } else {
-            require $this->Config->get('PATH_VIEW') . '403.php';
-        }
-
         if (!$this->controllerName) {
             $this->controllerName = $this->Config->get('DEFAULT_CONTROLLER');
         }
@@ -54,6 +48,11 @@ class Application
         }
 
         $this->controllerName = ucwords($this->controllerName) . 'Controller';
+        if ($this->route->getRequestMethod() != $_SERVER["REQUEST_METHOD"]) {
+            require $this->Config->get('PATH_VIEW') . '403.php';
+            return;
+        }
+
 
         if (file_exists($this->Config->get('PATH_CONTROLLER') . $this->controllerName . '.php')) {
             $this->instantiateController();

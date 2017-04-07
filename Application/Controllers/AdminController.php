@@ -36,17 +36,6 @@ class AdminController extends Controller
 
     public function registerUser()
     {
-        if (!$this->Request->isPost()) {
-            $this->View->renderJSON(
-                [
-                    "status" => "error",
-                    "message" => "Unauthorised access"
-                ],
-                Http::STATUS_UNAUTHORIZED
-            );
-            return;
-        }
-
         $admin = $this->Request->post('admin');
         $userId = $this->Request->post('uid');
         $userPassword = $this->Request->post('password');
@@ -139,6 +128,5 @@ class AdminController extends Controller
     }
 
     public function changeUserInfo() {}
-
 
 }

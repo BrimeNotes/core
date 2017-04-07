@@ -25,36 +25,40 @@ class Route
             $this->now = $this->route[$url];
             return $this->route[$url];
         } else {
-           foreach ($this->route as $uri => $route) {
-               if (strpos($uri, '{') !== false) {
-                   $position = strpos($uri, '{');
+            foreach ($this->route as $uri => $route) {
+                if (strpos($uri, '{') !== false) {
+                    $position = strpos($uri, '{');
                     if (substr($url, 0, $position) == substr($uri, 0, $position)) {
                         $this->paraString = substr($url, $position);
                         $this->now = $route;
                         return $uri;
                     }
-               }
-           }
+                }
+            }
         }
         return false;
     }
 
-    public function getController() {
+    public function getController()
+    {
         $controller = explode('#', $this->now[0])[0];
         return $controller;
     }
 
-    public function getMethod() {
+    public function getMethod()
+    {
         $method = explode('#', $this->now[0])[1];
         return $method;
     }
 
-    public function getParams() {
+    public function getParams()
+    {
         return explode('/', $this->paraString);
     }
 
-    public function getRequestMethod() {
-        return strtoupper($this->now[1]);
+    public function getRequestMethod()
+    {
+        return empty($this->now[1]) ? 'GET' : strtoupper($this->now[1]);
     }
 
 
