@@ -74,6 +74,39 @@ class UsersController extends Controller
 
     public function changePassword()
     {
+        $uid = $this->Request->post('username');
+        $oldPassword = $this->Request->post('old_password');
+        $newPassword = $this->Request->post('new_password');
 
+        if (!$this->userManager->checkPassword($uid, $oldPassword)) {
+            $this->View->renderJSON(
+                [
+                    "status" => "error",
+                    "message" => "Old password does not match the existing password."
+                ],
+                Http::STATUS_BAD_REQUEST
+            );
+            return;
+        }
+
+        if (!$this->user->setPassword($uid, $newPassword)) {
+            $this->View->renderJSON(
+                [
+                    "status" => "error",
+                    "message" => "Failed to set new password."
+                ],
+                Http::STATUS_BAD_REQUEST
+            );
+            return;
+        }
+
+        $this->View->renderJSON(
+            [
+                "status" => "success",
+                "message" => "Password changed successfully."
+            ],
+            Http::STATUS_OK
+        );
+        return;
     }
 }

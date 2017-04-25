@@ -34,13 +34,28 @@ class NotesController extends Controller
 
     public function get($userId, $noteId='')
     {
-
-
         if ($noteId === '') {
             // TODO: Show all the notes
+            // Get Notes by a single user
         }
 
+        $note = $this->notes->getSingleNote($noteId);
+        if ($note->userid != $userId) {
+            $this->View->renderJSON(
+                [
+                    "status" => "error",
+                    "message" => "Unauthorised access."
+                ],
+                Http::STATUS_FORBIDDEN
+            );
+            return;
+        }
 
+        $this->View->renderJSON(
+            $note,
+            Http::STATUS_OK
+        );
+        return;
     }
 
     public function add()
@@ -64,7 +79,6 @@ class NotesController extends Controller
                             'message' => 'Note added successfully'
                         ],
                         Http::STATUS_OK
-
                     );
                 }
             }

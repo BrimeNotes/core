@@ -64,9 +64,11 @@ class User
 
     public function setPassword($userId, $password)
     {
+        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+
         $query = $this->database->prepare("UPDATE users SET password = :password WHERE userid = :userid");
         $query->execute([
-            ':password' => $password,
+            ':password' => $passwordHash,
             ':userid' => $userId
         ]);
 

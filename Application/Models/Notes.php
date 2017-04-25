@@ -25,10 +25,10 @@ class Notes
         return false;
     }
 
-    public static function editNote() {}
-    public static function deleteNote() {}
+    public function editNote() {}
+    public function deleteNote() {}
 
-    public static function getNotesByUser($userId)
+    public function getNotesByUser($userId)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
@@ -43,7 +43,7 @@ class Notes
         return '';
     }
 
-    public static function getAllNotes()
+    public function getAllNotes()
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
@@ -52,6 +52,21 @@ class Notes
 
         if ($query->rowCount() !== 0) {
             return $query->fetchAll();
+        }
+        return '';
+    }
+
+    public function getSingleNote($noteId)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("SELECT * FROM notes WHERE id = :noteid");
+        $query->execute(array(
+            ':noteid' => $noteId
+        ));
+
+        if ($query->rowCount() !== 0) {
+            return $query->fetch();
         }
         return '';
     }
