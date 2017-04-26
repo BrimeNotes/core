@@ -9,7 +9,13 @@
   "autoload": {
     "psr-4": {
       "Brime\\Core\\": "Application/Core/",
-      "Brime\\Models\\": "Application/Models/"
+      "Brime\\Models\\": "Application/Models/",
+      "Brime\\Controllers\\": "Application/Controllers/",
+
+      "Tests\\Controllers\\": "tests/Controllers/"
     }
+  },
+  "require": {
+    "phpunit/phpunit": "^6.1"
   }
 }

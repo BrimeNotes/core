@@ -48,7 +48,7 @@ class UsersController extends Controller
                 ],
                 Http::STATUS_BAD_REQUEST
             );
-            return;
+            return false;
         }
 
         if (!$this->userManager->checkPassword($uid, $password)) {
