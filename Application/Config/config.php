@@ -22,4 +22,9 @@ return [
     'COOKIE_SECURE' => false,
     'COOKIE_HTTP' => true,
     'SESSION_RUNTIME' => 604800,
+
+    'JWT_SECRET_KEY' => 'my-secret-key',
+    'JWT_ALGORITHM' => 'HS512',
+
+    'SERVER_NAME' => 'http://brime.ml/'
 ];

@@ -16,6 +16,7 @@
     }
   },
   "require": {
-    "phpunit/phpunit": "^6.1"
+    "phpunit/phpunit": "^6.1",
+    "firebase/php-jwt": "^5.0"
   }
 }
