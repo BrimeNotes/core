@@ -7,6 +7,8 @@ use Brime\Core\Framework\Helper;
 use Brime\Core\Framework\Model;
 use Brime\Core\Helpers\Http;
 
+use \Firebase\JWT\JWT;
+
 class UsersController extends Controller
 {
     /**
@@ -24,12 +26,18 @@ class UsersController extends Controller
      */
     private $Request;
 
+    /**
+     * @var \Brime\Core\Helpers\Config
+     */
+    private $Config;
+
     public function __construct(Model $model, Helper $helper)
     {
         $this->user = $model->get('User');
         $this->userManager = $model->get('UserManager');
 
         $this->Request = $helper->get('Request');
+        $this->Config = $helper->get('Config');
         parent::__construct($model, $helper);
     }
 
@@ -59,13 +67,40 @@ class UsersController extends Controller
                 ],
                 Http::STATUS_BAD_REQUEST
             );
-            return;
+            return false;
         }
+
+        $tokenId    = base64_encode(random_bytes(32));
+        $issuedAt   = time();
+        $notBefore  = $issuedAt + 10;
+        $expire     = $notBefore + 7200;
+        $serverName = $this->Config->get('SERVER_NAME');
+
+        $data = [
+            'iat'  => $issuedAt,
+            'jti'  => $tokenId,
+            'iss'  => $serverName,
+            'nbf'  => $notBefore,
+            'exp'  => $expire,
+            'data' => [
+                'id'   => $uid,
+            ]
+        ];
+        $secretKey = base64_decode($this->Config->get('JWT_SECRET_KEY'));
+
+        $jwt = JWT::encode(
+            $data,
+            $secretKey,
+            $this->Config->get('JWT_ALGORITHM')
+        );
 
         $this->View->renderJSON(
             [
                 "status" => "success",
-                "message" => "User logged in successfully."
+                "message" => "User logged in successfully.",
+                "response" => [
+                    "jwt" => $jwt
+                ]
             ],
             Http::STATUS_OK
         );
