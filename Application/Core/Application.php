@@ -48,11 +48,16 @@ class Application
         }
 
         $this->controllerName = ucwords($this->controllerName) . 'Controller';
+
+        if ($_SERVER["REQUEST_METHOD"] === "OPTIONS") {
+            http_response_code(200);
+            return;
+        }
+
         if ($this->route->getRequestMethod() != $_SERVER["REQUEST_METHOD"]) {
             require $this->Config->get('PATH_VIEW') . '403.php';
             return;
         }
-
 
         if (file_exists($this->Config->get('PATH_CONTROLLER') . $this->controllerName . '.php')) {
             $this->instantiateController();

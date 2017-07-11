@@ -16,7 +16,6 @@ class View
     public function renderJSON($data, $code)
     {
         http_response_code($code);
-        header('Access-Control-Allow-Origin: *');
         @header("Content-Type: application/json");
         echo json_encode($data);
     }
