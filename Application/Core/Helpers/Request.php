@@ -4,6 +4,13 @@ namespace Brime\Core\Helpers;
 
 class Request
 {
+    public function __construct()
+    {
+        if (empty($_POST)) {
+            $_POST = json_decode(file_get_contents('php://input'), true);
+        }
+    }
+
     private function getMethod()
     {
         return $_SERVER["REQUEST_METHOD"];
