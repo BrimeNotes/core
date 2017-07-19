@@ -21,10 +21,7 @@
 namespace Tests\Controllers;
 
 use Brime\Controllers\UsersController;
-use Brime\Core\Framework\Helper;
-use Brime\Core\Helpers\Request;
 use PHPUnit\Framework\TestCase;
-use Brime\Core\Helpers\php;
 
 
 class UsersControllerTest extends TestCase
@@ -33,14 +30,22 @@ class UsersControllerTest extends TestCase
      * @var \Brime\Core\Helpers\Request | \PHPUnit_Framework_MockObject_MockObject
      */
     private $Request;
+
+    /**
+     * @var \Brime\Core\Helpers\Config | \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $Config;
+
     /**
      * @var UsersController | \PHPUnit_Framework_MockObject_MockObject
      */
     private $usersController;
+
     /**
      * @var \Brime\Models\User | \PHPUnit_Framework_MockObject_MockObject
      */
     private $user;
+
     /**
      * @var \Brime\Models\UserManager | \PHPUnit_Framework_MockObject_MockObject
      */
@@ -56,21 +61,20 @@ class UsersControllerTest extends TestCase
      */
     private $model;
 
-    private $View;
-
     public function setUp() {
         $this->helper = $this->createMock('\\Brime\\Core\\Framework\\Helper');
         $this->model = $this->createMock('\\Brime\\Core\\Framework\\Model');
 
         $this->Request = $this->createMock('\\Brime\\Core\\Helpers\\Request');
+        $this->Config = $this->createMock('\\Brime\\Core\\Helpers\\Config');
 
         $this->user = $this->createMock('Brime\\Models\\User');
         $this->userManager = $this->createMock('Brime\\Models\\UserManager');
 
-        $this->helper->expects($this->once())
+        $this->helper->expects($this->exactly(2))
             ->method('get')
-            ->with('Request')
-            ->will($this->returnValue($this->Request));
+            ->withConsecutive(['Request'], ['Config'])
+            ->willReturnOnConsecutiveCalls($this->Request, $this->Config);
 
         $this->model->expects($this->any())
             ->method('get')
