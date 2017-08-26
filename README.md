@@ -6,5 +6,5 @@
 The Brime Core is a Restful API that handles the server-side data manipulation and retrieval. A demo deployment of the API is set up at http://brime.ml/
 
 ## Technologies Used
-* PHP
+* PHP 7
 * MySQL
