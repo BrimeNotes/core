@@ -73,8 +73,13 @@ class Application
         }
 
         if ($this->route->getRequestMethod() != $_SERVER["REQUEST_METHOD"]) {
-            require $this->Config->get('PATH_VIEW') . '403.php';
-            return;
+            http_response_code(403);
+            @header("Content-Type: application/json");
+            echo json_encode([
+                "error" => 403,
+                "message" => "Unauthorised Access"
+            ]);
+            exit();
         }
 
         if (file_exists($this->Config->get('PATH_CONTROLLER') . $this->controllerName . '.php')) {
@@ -86,10 +91,22 @@ class Application
                     $this->controller->{$this->method}();
                 }
             } else {
-                require $this->Config->get('PATH_VIEW') . '404.php';
+                http_response_code(404);
+                @header("Content-Type: application/json");
+                echo json_encode([
+                    "error" => 404,
+                    "message" => "Not Found"
+                ]);
+                exit();
             }
         } else {
-            require $this->Config->get('PATH_VIEW') . '404.php';
+            http_response_code(404);
+            @header("Content-Type: application/json");
+            echo json_encode([
+                "error" => 404,
+                "message" => "Not Found"
+            ]);
+            exit();
         }
     }
 
@@ -101,7 +118,13 @@ class Application
                 $this->method = $this->route->getMethod();
                 $this->params = $this->route->getParams();
             } else {
-                require $this->Config->get('PATH_VIEW') . '404.php';
+                http_response_code(404);
+                @header("Content-Type: application/json");
+                echo json_encode([
+                    "error" => 404,
+                    "message" => "Not Found"
+                ]);
+                exit();
             }
         }
     }
