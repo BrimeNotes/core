@@ -26,5 +26,10 @@ return [
     'JWT_SECRET_KEY' => 'my-secret-key',
     'JWT_ALGORITHM' => 'HS512',
 
-    'SERVER_NAME' => 'http://brime.ml/'
+    'SERVER_NAME' => 'http://brime.ml/',
+
+    'SMTP_HOST' => 'smtp.sendgrid.net',
+    'SMTP_NAME' => 'xxxxxx',
+    'SMTP_PSWD' => 'xxxxxx',
+    'SMTP_PORT' => 587,
 ];
