@@ -55,23 +55,21 @@ class LostController extends Controller
         parent::__construct($model, $helper);
     }
 
-    private function checkPasswordResetToken($token, $email)
+    private function checkPasswordResetToken($token, $userid)
     {
-        $user = $this->user->getUserIdByEmail($email);
-
-        $splittedToken = explode(':', $this->userProperties->getUserValue($user->userid, 'lostpassword'));
+        $splittedToken = explode(':', $this->userProperties->getUserValue($userid, 'lostpassword'));
         if (count($splittedToken) !== 2) {
-            $this->userProperties->deleteUserValue($user->userid, 'lostpassword');
+            $this->userProperties->deleteUserValue($userid, 'lostpassword');
             return false;
         }
 
         if ($splittedToken[0] < (Carbon::now()->timestamp - 60 * 60 * 12)) {
-            $this->userProperties->deleteUserValue($user->userid, 'lostpassword');
+            $this->userProperties->deleteUserValue($userid, 'lostpassword');
             return false;
         }
 
         if (!hash_equals($splittedToken[1], $token)) {
-            $this->userProperties->deleteUserValue($user->userid, 'lostpassword');
+            $this->userProperties->deleteUserValue($userid, 'lostpassword');
             return false;
         }
         return true;
@@ -114,8 +112,9 @@ class LostController extends Controller
             }
         }
 
-        $token = $this->Random->generateString(21);
-        $this->userProperties->setUserValue($user->id, 'lostpassword', Carbon::now()->timestamp . ':' . $token);
+        $token = $this->Random->generateString(21, '0123456789'. 'abcdefghijklmnopqrstuvwxyz'. 'ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+
+        $this->userProperties->setUserValue($user->userid, 'lostpassword', Carbon::now()->timestamp . ':' . $token);
 
         $mail->setFrom('contact@ujjwalbhardwaj.me', 'Ujjwal Bhardwaj');
         $mail->addAddress($email);
@@ -124,10 +123,10 @@ class LostController extends Controller
         $mail->Body = '<html>
                         <body>
                             <p>Please click on the link below to change password:</p>
-                            <p><a href = "http://www.brime.ml/user/password/change/' . $token . '/' . $user->email . '">Reset</a></p>
+                            <p><a href = "http://www.brime.ml/user/password/change/' . $token . '/' . $user->userid . '">Reset</a></p>
                         </body >
                     </html >';
-        $mail->AltBody = 'Click on the link to change password. http://www.brime.ml/user/password/change/' . $token . '/' . $user->email;
+        $mail->AltBody = 'Click on the link to change password. http://www.brime.ml/user/password/change/' . $token . '/' . $user->userid;
         $mail->send();
 
         $this->View->renderJSON(
@@ -143,7 +142,6 @@ class LostController extends Controller
      * Check token from URL
      * @param $token
      * @param $userid
-     * @return bool
      */
     public function changePassword($token, $userid)
     {
@@ -155,7 +153,7 @@ class LostController extends Controller
                 ],
                 Http::STATUS_BAD_REQUEST
             );
-            return false;
+            return;
         }
 
         $this->View->renderJSON(
@@ -165,6 +163,6 @@ class LostController extends Controller
             ],
             Http::STATUS_OK
         );
-        return true;
+        return;
     }
 }
