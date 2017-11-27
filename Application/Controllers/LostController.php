@@ -165,4 +165,42 @@ class LostController extends Controller
         );
         return;
     }
+
+    public function setPassword()
+    {
+        $userid = $this->Request->post('userid');
+        $password = $this->Request->post('password');
+        $token = $this->Request->post('token');
+
+        if (!$this->checkPasswordResetToken($token, $userid)) {
+            $this->View->renderJSON(
+                [
+                    "status" => "error",
+                    "message" => "Invalid Password Reset Token"
+                ],
+                Http::STATUS_BAD_REQUEST
+            );
+            return;
+        }
+
+        if (!$this->user->setPassword($userid, $password)) {
+            $this->View->renderJSON(
+                [
+                    "status" => "error",
+                    "message" => "Failed to set password."
+                ],
+                Http::STATUS_BAD_REQUEST
+            );
+            return;
+        }
+
+        $this->View->renderJSON(
+            [
+                "status" => "success",
+                "message" => "Password changed successfully."
+            ],
+            Http::STATUS_OK
+        );
+        return;
+    }
 }
