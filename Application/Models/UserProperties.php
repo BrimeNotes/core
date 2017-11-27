@@ -42,7 +42,7 @@ class UserProperties
         if ($query->rowCount() != 1) {
             return $default;
         }
-        return $query->fetch();
+        return $query->fetch()->propertyvalue;
     }
 
     public function setUserValue($userId, $key, $value)

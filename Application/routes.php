@@ -27,6 +27,7 @@ return [
     'user/changepassword' => ['Users#changePassword', 'post'],
 
     'user/password/forgot' => ['Lost#forgotPassword', 'post'],
+    'user/password/change/{token}/{userid}' => ['Lost#changePassword', 'get'],
 
     'notes/add' => ['Notes#add', 'post'],
     'notes/{userid}/{noteid}' => ['Notes#get', 'get'],

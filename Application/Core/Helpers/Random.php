@@ -13,7 +13,7 @@ class Random
 
         while ($length > 0) {
             $randomNumber = \random_int(0, $maxCharIndex);
-            $randomString = $characters[$randomNumber];
+            $randomString .= $characters[$randomNumber];
             $length--;
         }
 
