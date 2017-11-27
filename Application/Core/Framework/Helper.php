@@ -27,6 +27,9 @@ class Helper
         'Config',
         'DatabaseFactory',
         'Http',
+        'JSONResponse',
+        'Mailer',
+        'Random',
         'Redirect',
         'Request'
     ];

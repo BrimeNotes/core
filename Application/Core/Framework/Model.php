@@ -25,6 +25,7 @@ class Model
     private static $models;
     private $list = [
         'Group',
+        'Label',
         'Notes',
         'User',
         'UserManager',

@@ -24,9 +24,7 @@ class Request
 {
     public function __construct()
     {
-        if (empty($_POST)) {
-            $_POST = json_decode(file_get_contents('php://input'), true);
-        }
+        $_POST = json_decode(file_get_contents('php://input'), true);
     }
 
     private function getMethod()
@@ -66,4 +64,23 @@ class Request
         return false;
     }
 
+    function getHeader($key)
+    {
+        $headers = [];
+        if (!function_exists('getallheaders')) {
+            foreach ($_SERVER as $name => $value) {
+                if (substr($name, 0, 5) == 'HTTP_') {
+                    $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+                }
+            }
+        } else {
+            $headers = getallheaders();
+        }
+
+        $headerValue = '';
+        if ( array_key_exists($key, $headers) ) {
+            $headerValue = $headers[$key];
+        }
+        return $headerValue;
+    }
 }

@@ -21,9 +21,13 @@
 return [
     'index' => ['Index#index', 'get'],
     'index/hello/{var}' => ['Index#hello', 'get'],
+
     'user/register' => ['Admin#registerUser', 'post'],
     'user/login' => ['Users#login', 'post'],
     'user/changepassword' => ['Users#changePassword', 'post'],
+
+    'user/password/forgot' => ['Lost#forgotPassword', 'post'],
+
     'notes/add' => ['Notes#add', 'post'],
     'notes/{userid}/{noteid}' => ['Notes#get', 'get'],
 

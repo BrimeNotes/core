@@ -118,16 +118,16 @@ class LostController extends Controller
         $this->userProperties->setUserValue($user->id, 'lostpassword', Carbon::now()->timestamp . ':' . $token);
 
         $mail->setFrom('contact@ujjwalbhardwaj.me', 'Ujjwal Bhardwaj');
-        $mail->addAddress($user->email);
+        $mail->addAddress($email);
         $mail->isHTML(true);
         $mail->Subject = "Reset Password";
         $mail->Body = '<html>
                         <body>
                             <p>Please click on the link below to change password:</p>
-                            <p><a href = "http://www.brime.tk/user/password/change/' . $token . '/' . $user->email . '">Reset</a></p>
+                            <p><a href = "http://www.brime.ml/user/password/change/' . $token . '/' . $user->email . '">Reset</a></p>
                         </body >
                     </html >';
-        $mail->AltBody = 'Click on the link to change password. http://www.brime.tk/user/password/change/' . $token . '/' . $user->email;
+        $mail->AltBody = 'Click on the link to change password. http://www.brime.ml/user/password/change/' . $token . '/' . $user->email;
         $mail->send();
 
         $this->View->renderJSON(
